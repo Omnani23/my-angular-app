@@ -1,0 +1,32 @@
+<div class="seat-selection-container">
+    <div class="screen">Screen</div>
+    <div class="seats-container">
+      <div *ngFor="let row of seats; let i = index" class="seat-row">
+        <span class="row-label">{{String.fromCharCode(65 + i)}}</span>
+        <div *ngFor="let seat of row" 
+             class="seat" 
+             [class.occupied]="seat.occupied"
+             [class.selected]="seat.selected"
+             (click)="toggleSeat(seat)">
+          {{seat.number}}
+        </div>
+      </div>
+    </div>
+    <div class="legend">
+      <div class="legend-item">
+        <div class="seat-sample available"></div>
+        <span>Available</span>
+      </div>
+      <div class="legend-item">
+        <div class="seat-sample occupied"></div>
+        <span>Occupied</span>
+      </div>
+      <div class="legend-item">
+        <div class="seat-sample selected"></div>
+        <span>Selected</span>
+      </div>
+    </div>
+    <button class="btn btn-primary book-btn" [disabled]="!hasSelectedSeats()">
+      Book Tickets
+    </button>
+  </div>

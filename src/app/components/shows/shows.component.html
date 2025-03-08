@@ -1,0 +1,65 @@
+<div class="shows-container">
+  <header class="header">
+    <div class="search-bar">
+      <input type="text" placeholder="Search for movies, events, plays and more" class="form-control">
+    </div>
+    <div class="profile-icon" (click)="navigateToProfile()">
+      <img src="assets/images/profile-icon.png" alt="Profile"> <!-- ✅ Replace text icon with image -->
+    </div>
+  </header>
+
+  <div class="main-content">
+    <!-- Left Sidebar Filter -->
+    <div class="filter-sidebar">
+      <h3>Filters</h3>
+
+      <!-- Location Filter -->
+      <div class="filter-group">
+        <h4>Location</h4>
+        <label *ngFor="let location of ['hyderabad', 'bangalore', 'mumbai']">
+          <input type="checkbox" [(ngModel)]="selectedFilters.location[location]"> {{ location | titlecase }}
+        </label>
+      </div>
+
+      <!-- Language Filter -->
+      <div class="filter-group">
+        <h4>Language</h4>
+        <label *ngFor="let language of ['english', 'hindi', 'telugu']">
+          <input type="checkbox" [(ngModel)]="selectedFilters.language[language]"> {{ language | titlecase }}
+        </label>
+      </div>
+
+      <!-- Genre Filter -->
+      <div class="filter-group">
+        <h4>Genre</h4>
+        <label *ngFor="let genre of ['action', 'drama', 'comedy']">
+          <input type="checkbox" [(ngModel)]="selectedFilters.genre[genre]"> {{ genre | titlecase }}
+        </label>
+      </div>
+
+      <!-- Apply Filters Button -->
+      <button class="apply-btn" (click)="applyFilters()">Apply Filters</button>
+    </div>
+
+    <div class="content-area">
+      <!-- Category Selection -->
+      <div class="categories">
+        <button *ngFor="let category of ['movies', 'events', 'concerts']" 
+                class="category-btn" 
+                [class.active]="selectedCategory === category" 
+                (click)="filterShows(category)">
+          {{ category | titlecase }}
+        </button>
+      </div>
+
+      <!-- Shows Grid -->
+      <div class="shows-grid">
+        <div *ngFor="let show of filteredShows" class="show-card" (click)="selectShow(show)">
+          <img [src]="show.image" [alt]="show.title">
+          <h3>{{ show.title }}</h3>
+          <p>{{ show.genre }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

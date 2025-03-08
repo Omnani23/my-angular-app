@@ -1,0 +1,16 @@
+<div class="theaters-container">
+    <h2>Available Theaters</h2>
+    <div class="theaters-list">
+      <div *ngFor="let theater of theaters" class="theater-card" (click)="selectTheater(theater)">
+        <div class="theater-info">
+          <h3>{{theater.name}}</h3>
+          <p>{{theater.location}}</p>
+        </div>
+        <div class="showtimes">
+          <button *ngFor="let time of theater.showTimes" class="time-btn">
+            {{time}}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>

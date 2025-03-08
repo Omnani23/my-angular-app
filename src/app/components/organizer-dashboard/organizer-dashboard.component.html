@@ -1,0 +1,102 @@
+<div class="dashboard-container">
+  <header class="dashboard-header">
+    <h1>Event Organizer Dashboard</h1>
+    <div class="user-profile" (click)="navigateToProfile()">
+      <span>Organizer</span>
+    </div>
+  </header>
+
+  <div class="dashboard-content">
+    <div class="event-type-selector">
+      <button 
+        class="event-type-btn" 
+        [class.active]="selectedEventType === 'movie'"
+        (click)="selectedEventType = 'movie'">
+        Movie Screening
+      </button>
+      <button 
+        class="event-type-btn" 
+        [class.active]="selectedEventType === 'concert'"
+        (click)="selectedEventType = 'concert'">
+        Concert
+      </button>
+    </div>
+
+    <div class="event-form" *ngIf="selectedEventType === 'movie'">
+      <h2>Plan Movie Screening</h2>
+      <form (ngSubmit)="onSubmitMovie()">
+        <div class="form-group">
+          <label>Movie Title</label>
+          <input type="text" class="form-control" [(ngModel)]="movieTitle" name="movieTitle">
+        </div>
+        <div class="form-group">
+          <label>Select Theater</label>
+          <select class="form-control" [(ngModel)]="selectedTheater" name="theater">
+            <option value="">Choose a theater</option>
+            <option *ngFor="let theater of theaters" [value]="theater.id">
+              {{theater.name}} - {{theater.location}}
+            </option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Show Times</label>
+          <div class="time-slots">
+            <div *ngFor="let time of availableTimes" class="time-slot">
+              <input type="checkbox" [id]="time" [value]="time" (change)="toggleTimeSlot(time)">
+              <label [for]="time">{{time}}</label>
+            </div>
+          </div>
+        </div>
+        <button type="submit" class="btn btn-primary">
+          Schedule Movie
+        </button>
+      </form>
+    </div>
+
+    <div class="event-form" *ngIf="selectedEventType === 'concert'">
+      <h2>Plan Concert</h2>
+      <form (ngSubmit)="onSubmitConcert()">
+        <div class="form-group">
+          <label>Concert Name</label>
+          <input type="text" class="form-control" [(ngModel)]="concertName" name="concertName">
+        </div>
+        <div class="form-group">
+          <label>Venue</label>
+          <select class="form-control" [(ngModel)]="selectedVenue" name="venue">
+            <option value="">Choose a venue</option>
+            <option *ngFor="let venue of venues" [value]="venue.id">
+              {{venue.name}} - Capacity: {{venue.capacity}}
+            </option>
+          </select>
+        </div>
+        <div class="passes-section">
+          <h3>Configure Passes</h3>
+          <div class="pass-types">
+            <div *ngFor="let pass of passes" class="pass-type">
+              <div class="pass-header">
+                <h4>{{pass.type}}</h4>
+                <label class="switch">
+                  <input type="checkbox" [(ngModel)]="pass.enabled" [name]="pass.type">
+                  <span class="slider"></span>
+                </label>
+              </div>
+              <div class="pass-details" *ngIf="pass.enabled">
+                <div class="form-group">
+                  <label>Price</label>
+                  <input type="number" class="form-control" [(ngModel)]="pass.price" [name]="pass.type + 'price'">
+                </div>
+                <div class="form-group">
+                  <label>Quantity</label>
+                  <input type="number" class="form-control" [(ngModel)]="pass.quantity" [name]="pass.type + 'quantity'">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <button type="submit" class="btn btn-primary">
+          Create Concert Event
+        </button>
+      </form>
+    </div>
+  </div>
+</div>
