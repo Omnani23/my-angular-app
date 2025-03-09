@@ -1,77 +1,92 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms'; // ✅ Import FormsModule
 
 @Component({
   selector: 'app-shows',
   standalone: true,
-  imports: [CommonModule, FormsModule], // ✅ Include FormsModule to use ngModel
+  imports: [CommonModule, RouterLink, RouterLinkActive],
   templateUrl: './shows.component.html',
   styleUrls: ['./shows.component.css']
 })
 export class ShowsComponent {
-  selectedCategory: string = 'movies'; // Default category
-
-  allShows = [
-    { id: 1, title: 'Avengers: Endgame', genre: 'Action/Sci-Fi', category: 'movies', image: 'assets/images/movies/avengers.jpg' },
-    { id: 2, title: 'The Dark Knight', genre: 'Action/Drama', category: 'movies', image: 'assets/images/movies/dark-knight.jpg' },
-    { id: 3, title: 'Music Concert', genre: 'Live Event', category: 'concerts', image: 'assets/images/concerts/concert.jpeg' },
-    { id: 4, title: 'Stand-up Comedy', genre: 'Comedy Event', category: 'events', image: 'assets/images/events/comedy.jpeg' }
+  movies = [
+    {
+      id: 1,
+      title: 'Avengers: Endgame',
+      genre: 'Action/Sci-Fi',
+      image: 'assets/images/movies/avengers.jpg'
+    },
+    {
+      id: 2,
+      title: 'The Dark Knight',
+      genre: 'Action/Drama',
+      image: 'assets/images/movies/dark-knight.jpg'
+    },
+    {
+      id: 3,
+      title: 'Inception',
+      genre: 'Sci-Fi/Action',
+      image: 'https://assets-in.bmscdn.com/iedb/movies/images/mobile/thumbnail/xlarge/inception-et00004499-24-03-2017-02-34-49.jpg'
+    },
+    {
+      id: 4,
+      title: 'Interstellar',
+      genre: 'Sci-Fi/Drama',
+      image: 'https://assets-in.bmscdn.com/iedb/movies/images/mobile/thumbnail/xlarge/interstellar-et00019066-19-05-2016-12-09-15.jpg'
+    }
   ];
 
-  selectedFilters = {
-    location: {} as Record<string, boolean>,  // ✅ Allows dynamic string keys
-    language: {} as Record<string, boolean>,
-    genre: {} as Record<string, boolean>
-  };
-  
-  // Initialize all values as `false`
-  constructor(private router: Router) {
-    const genres = ['action', 'drama', 'comedy'];
-    const languages = ['english', 'hindi', 'telugu'];
-    const locations = ['hyderabad', 'bangalore', 'mumbai'];
-  
-    genres.forEach(genre => (this.selectedFilters.genre[genre] = false));
-    languages.forEach(lang => (this.selectedFilters.language[lang] = false));
-    locations.forEach(loc => (this.selectedFilters.location[loc] = false));
+  events = [
+    {
+      id: 1,
+      title: 'Music Festival 2024',
+      venue: 'Central Park Arena',
+      price: '999',
+      image: 'https://assets-in.bmscdn.com/discovery-catalog/events/tr:w-400,h-600,bg-CCCCCC:w-400.0,h-660.0,cm-pad_resize,bg-000000,fo-top:ote-U2F0LCAyNyBKYW4%3D,ots-29,otc-FFFFFF,oy-612,ox-24:q-80/et00384053-pbhqsqrxvs-portrait.jpg'
+    },
+    {
+      id: 2,
+      title: 'Comedy Night',
+      venue: 'Laugh Factory',
+      price: '499',
+      image: 'https://assets-in.bmscdn.com/discovery-catalog/events/tr:w-400,h-600,bg-CCCCCC:w-400.0,h-660.0,cm-pad_resize,bg-000000,fo-top:ote-U3VuLCAyMSBKYW4%3D,ots-29,otc-FFFFFF,oy-612,ox-24:q-80/et00384055-vxfmqjdwyl-portrait.jpg'
+    },
+    {
+      id: 3,
+      title: 'Rock Concert',
+      venue: 'Stadium Arena',
+      price: '1499',
+      image: 'https://assets-in.bmscdn.com/discovery-catalog/events/tr:w-400,h-600,bg-CCCCCC:w-400.0,h-660.0,cm-pad_resize,bg-000000,fo-top:ote-U2F0LCAyMCBKYW4%3D,ots-29,otc-FFFFFF,oy-612,ox-24:q-80/et00384054-ktzzmxqsuy-portrait.jpg'
+    }
+  ];
+
+  streams = [
+    {
+      id: 1,
+      title: 'Gaming Championship',
+      viewers: '15.2K',
+      image: 'https://assets-in.bmscdn.com/discovery-catalog/events/tr:w-400,h-600,bg-CCCCCC:w-400.0,h-660.0,cm-pad_resize,bg-000000,fo-top:ote-U3VuLCAyMSBKYW4%3D,ots-29,otc-FFFFFF,oy-612,ox-24:q-80/et00384056-pdqbkfsnaq-portrait.jpg'
+    },
+    {
+      id: 2,
+      title: 'Music Live Stream',
+      viewers: '8.5K',
+      image: 'https://assets-in.bmscdn.com/discovery-catalog/events/tr:w-400,h-600,bg-CCCCCC:w-400.0,h-660.0,cm-pad_resize,bg-000000,fo-top:ote-U2F0LCAyNyBKYW4%3D,ots-29,otc-FFFFFF,oy-612,ox-24:q-80/et00384057-qkrxfxqpkt-portrait.jpg'
+    }
+  ];
+
+  constructor(private router: Router) {}
+
+  selectMovie(movie: any) {
+    this.router.navigate(['/theaters', movie.id]);
   }
-  
 
-  filteredShows = this.allShows.filter(show => show.category === this.selectedCategory);
-
-
-  filterShows(category: string) {
-    this.selectedCategory = category;
-    this.filteredShows = this.allShows.filter(show => show.category === category);
-  }
-
-  selectShow(show: any) {
-    this.router.navigate(['/theaters', show.id]);
+  selectEvent(event: any) {
+    this.router.navigate(['/theaters', event.id]);
   }
 
   navigateToProfile() {
-    console.log('Navigating to profile page');
+    this.router.navigate(['/profile']);
   }
-
-  applyFilters() {
-    this.filteredShows = this.allShows.filter(show => 
-      show.category === this.selectedCategory &&
-      this.checkFilterMatch(show)
-    );
-  }
-
-  private checkFilterMatch(show: any): boolean {
-    return (
-      this.isAnyFilterSelected(this.selectedFilters.location) ||
-      this.isAnyFilterSelected(this.selectedFilters.language) ||
-      this.isAnyFilterSelected(this.selectedFilters.genre)
-    );
-  }
-
-  private isAnyFilterSelected(filterGroup: Record<string, boolean>): boolean {
-    return Object.values(filterGroup).some(selected => selected);
-  }
-
-  
 }
